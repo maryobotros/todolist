@@ -47,6 +47,29 @@ app.post("/insertActivity", async (req, res) => {
     }
 });
 
+// DELETE an activity by ID
+// URL: http://localhost:3001/deleteActivity/:activityId
+app.delete("/deleteActivity/:activityId", async (req, res) => {
+    try {
+        // Get the activity ID
+        const activityId = req.params.activityId;
+
+        // Attempt to find the friend by ID and remove it
+        const deletedActivity = await ActivityModel.findByIdAndDelete(activityId);
+
+        // If the friend is not found, return 404 status
+        if (!deletedActivity) {
+            return res.status(404).json({ message: "Activity not found" });
+        }
+
+        // Friend successfully deleted, return success message
+        res.json({ message: "Activity deleted successfully" });
+    } catch (err) {
+        res.status(500).json(err); // Handle the error with a 500 status code
+    }
+});
+
+
 // Tell API to start on port 3001
 app.listen(3001, () => {
     console.log("Server is running on port 3001");

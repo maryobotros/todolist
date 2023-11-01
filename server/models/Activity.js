@@ -10,7 +10,6 @@ const ActivitySchema = new mongoose.Schema({
     completed: {
         type: Boolean,
     }
-
 });
 
 // Create a variable out of the schema
