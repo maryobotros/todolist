@@ -60,6 +60,21 @@ function App() {
       });
   };
 
+  // Function to update an activity
+  const updateActivity = (id) => {
+    const newDescription = prompt("Enter a new activity description: ");
+
+    Axios.put(`http://localhost:3001/updateActivity/${id}`, {description: newDescription})
+      .then(() => {
+        setListOfActivities(listOfActivities.map((val) => {
+          return val._id === id ? {_id: id, description: newDescription, completed: val.completed} : val
+        }))
+      })
+      .catch(() => {
+        alert("Failed to update activity");
+      });
+  };
+
 
 
   // APP
@@ -85,7 +100,7 @@ function App() {
                 <h3>{index + 1}.</h3>
                 <h3> Activity: {val.description} </h3>
               </div>
-
+              <button onClick={() => updateActivity(val._id)}>Update</button>
               <button onClick={() => deleteActivity(val._id)}>Delete</button>
             </div>
           )
