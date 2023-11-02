@@ -74,10 +74,11 @@ function App() {
 
       {/* Activity List */}
       <div className="listOfActivities">
-        {listOfActivities.map((val) => {
+        {listOfActivities.map((val, index) => {
           return (
             <div className="activityContainer">
               <div className="activity">
+                <h3>{index + 1}.</h3>
                 <h3> Activity: {val.description} </h3>
               </div>
 
