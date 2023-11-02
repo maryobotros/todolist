@@ -69,6 +69,29 @@ app.delete("/deleteActivity/:activityId", async (req, res) => {
     }
 });
 
+// PUT to update an activity by ID
+// URL: http://localhost:3001/updateActivity/:activityId
+app.put("/updateActivity/:activityId", async (req, res) => {
+    try {
+        // Get the activity ID and new info
+        const activityID = req.params.activityId;
+        const updatedActivityData = req.body;
+
+        // Attempt to find the actvitity by ID and uodate it with the new data
+        const updatedActivity = await ActivityModel.findByIdAndUpdate(activityID, updatedActivityData, { new: true });
+
+        // If the activity is not found, return 404 status 
+        if (!updatedActivity) {
+            return res.status(404).json({ message: "Activity not found" });
+        }
+
+        // Return the updated activity
+        res.json(updatedActivity);
+    } catch (err) {
+        res.status(500).json(err); // Handle the error with a 500 status code 
+    }
+});
+
 
 // Tell API to start on port 3001
 app.listen(3001, () => {
