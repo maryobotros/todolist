@@ -36,7 +36,11 @@ function App() {
       .then((response) => {
         // Update state based on the respnse data from the server
         setListOfActivities([...listOfActivities, response.data]);
-        setDescription(""); // Clear the input field after addung an activity
+        
+        // Clear the input field after adding the activity
+        var activityInput = document.getElementById('activityInput');
+        activityInput.value = '';
+
         alert("Activity added: " + description);
       })
       .catch(() => {
@@ -64,7 +68,7 @@ function App() {
       {/* Inputs */}
       <div className="inputs">
         {/* Input for activity */}
-        <input type="text" placeholder="Add an activity description" onChange={(event) => {
+        <input type="text" placeholder="Add an activity description" id="activityInput" onChange={(event) => {
           setDescription(event.target.value);
         }}></input>
 
