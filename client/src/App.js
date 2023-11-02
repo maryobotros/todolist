@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 
 function App() {
@@ -10,22 +10,53 @@ function App() {
 
 
   // FUNCTIONS
+  // useEffect function to send a get request
+  useEffect(() => {
+    // Function to fetch activities
+    const fetchActivities = async () => {
+      try {
+        const response = await Axios.get("http://localhost:3001/getActivities");
+        setListOfActivities(response.data);
+      } catch (error) {
+        console.log("Failed to fetch list of activities", error);
+      }
+    };
+
+    // Call the fetchActivities function
+    fetchActivities();
+  }, []); // Empty dependency array ensures this effect runs once after the initial render
+
+
   // Function to add activity
   const addActivity = () => {
     Axios.post("http://localhost:3001/insertActivity", {
       description: description,
       completed: false,
     })
-      .then(() => {
-        setListOfActivities([...listOfActivities, {description: description, completed: false}]);
-      })
-      .then(() => {
-        alert("Activity: " + description);
+      .then((response) => {
+        // Update state based on the respnse data from the server
+        setListOfActivities([...listOfActivities, response.data]);
+        setDescription(""); // Clear the input field after addung an activity
+        alert("Activity added: " + description);
       })
       .catch(() => {
         alert("Failed to add activity");
+      });
+  };
+
+
+  // Function to delete an activity
+  const deleteActivity = (id) => {
+    Axios.delete(`http://localhost:3001/deleteActivity/${id}`)
+      .then(() => {
+        setListOfActivities(listOfActivities.filter((activity) => activity._id !== id)); 
       })
-  }
+      .catch(() => {
+        alert("Failed to delete activity");
+      });
+  };
+
+
 
   // APP
   return (
@@ -49,6 +80,8 @@ function App() {
               <div className="activity">
                 <h3> Activity: {val.description} </h3>
               </div>
+
+              <button onClick={() => deleteActivity(val._id)}>Delete</button>
             </div>
           )
         })}
