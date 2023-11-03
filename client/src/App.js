@@ -99,11 +99,13 @@ function App() {
               <div className="activity">
                 <h3>{index + 1}.</h3>
                 <h3> Activity: {val.description} </h3>
+                <h4> Completed: {val.completed.toString()} </h4>
               </div>
               <button onClick={() => updateActivity(val._id)}>Update</button>
               <button onClick={() => deleteActivity(val._id)}>Delete</button>
+              
             </div>
-          )
+          );
         })}
       </div>
     </div>
@@ -111,3 +113,7 @@ function App() {
 }
 
 export default App;
+
+
+// Next steps are to implement a way to differentiate between completed and uncompleted tasks and also
+// allow the user to change a task from completed to uncompleted and vice versa
