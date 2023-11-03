@@ -75,6 +75,19 @@ function App() {
       });
   };
 
+  // Function to set an activity's completion
+  const changeActivityToCompleted = (id) => {
+    Axios.put(`http://localhost:3001/updateActivity/${id}`, {completed: true})
+      .then(() => {
+        setListOfActivities(listOfActivities.map((val) => {
+          return val._id === id ? {_id: id, description: val.description, completed: true} : val
+        }))
+      })
+      .catch(() => {
+        alert("Failed to change activity completion")
+      });
+  };
+
 
 
   // APP
@@ -103,7 +116,7 @@ function App() {
               </div>
               <button onClick={() => updateActivity(val._id)}>Update</button>
               <button onClick={() => deleteActivity(val._id)}>Delete</button>
-              
+              <button onClick={() => changeActivityToCompleted(val._id)}>Completed</button>
             </div>
           );
         })}
