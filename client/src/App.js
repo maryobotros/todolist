@@ -84,10 +84,22 @@ function App() {
         }))
       })
       .catch(() => {
-        alert("Failed to change activity completion")
+        alert("Failed to change activity completion");
       });
   };
 
+  // Function to set an activity to not completed
+  const changeActivityToNotCompleted = (id) => {
+    Axios.put(`http://localhost:3001/updateActivity/${id}`, {completed: false})
+      .then(() => {
+        setListOfActivities(listOfActivities.map((val) => {
+          return val._id === id ? {_id: id, description: val.description, completed: false} : val
+        }))
+      })
+      .catch(() => {
+        alert("Failed to change activity to not completed");
+      });
+  }
 
 
   // APP
@@ -117,6 +129,7 @@ function App() {
               <button onClick={() => updateActivity(val._id)}>Update</button>
               <button onClick={() => deleteActivity(val._id)}>Delete</button>
               <button onClick={() => changeActivityToCompleted(val._id)}>Completed</button>
+              <button onClick={() => changeActivityToNotCompleted(val._id)}>Not completed</button>
             </div>
           );
         })}
@@ -128,5 +141,5 @@ function App() {
 export default App;
 
 
-// Next steps are to implement a way to differentiate between completed and uncompleted tasks and also
-// allow the user to change a task from completed to uncompleted and vice versa
+// Next steps:
+// * Allow the user to change a task from completed to uncompleted and vice versa
