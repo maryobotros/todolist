@@ -35,7 +35,7 @@ app.get("/getActivities", async (req, res) => {
 // URL: http://localhost:3001/insertActivity
 app.post("/insertActivity", async (req, res) => {
     try {
-        // Create a new activity based on what's passed into the bodt and save it
+        // Create a new activity based on what's passed into the body and save it
         const activity = req.body;
         const newActivity = ActivityModel(activity);
         await newActivity.save();

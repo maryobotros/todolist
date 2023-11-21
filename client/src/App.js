@@ -10,7 +10,7 @@ function App() {
 
 
   // FUNCTIONS
-  // useEffect function to send a get request
+  // useEffect function to send a get request to insert all activities into listOfActivities array
   useEffect(() => {
     // Function to fetch activities
     const fetchActivities = async () => {
